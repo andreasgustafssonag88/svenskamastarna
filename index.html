@@ -1,1 +1,86 @@
-<!DOCTYPE html><html lang='sv'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>SvenskaMästarna 3.0</title><link rel='stylesheet' href='css/style.css'></head><body><header><h1>SvenskaMästarna 3.0</h1><div id='hud'>Nivå <span id='lvl'>1</span> | XP <span id='xp'>0</span></div></header><main><section class='card'><h2>Profil</h2><input id='name' placeholder='Namn'><select id='avatar'><option>🦊</option><option>🦉</option><option>🐼</option><option>🐬</option></select><button onclick='saveProfile()'>Spara</button><div id='profile'></div></section><section class='card'><h2>Världskarta</h2><button onclick='startGame()'>Ordakademin</button><button disabled>Läsardalen</button><button disabled>Mellan raderna</button></section><section class='card'><h2 id='question'>Starta Ordakademin</h2><button onclick='speakText()'>🔊 Läs upp</button><div id='answers'></div></section><section class='card'><h2>Märken</h2><div id='badges'></div></section><section class='card'><h2>SVA-begreppsbank</h2><button onclick='showWord("demokrati")'>Demokrati</button><button onclick='showWord("argument")'>Argument</button><div id='word'></div></section></main><script src='js/app.js'></script></body></html>
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16265c">
+  <title>SvenskaMästarna 4.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-view="home" aria-label="Gå till startsidan">
+      <span class="brand-icon">SM</span><span>SvenskaMästarna</span>
+    </button>
+    <div class="player-mini">
+      <span id="miniAvatar" class="mini-avatar">🦊</span>
+      <div><strong id="miniName">Elev</strong><small>Nivå <span id="level">1</span></small></div>
+      <div class="xp-wrap" aria-label="Erfarenhetspoäng"><div id="xpBar" class="xp-bar"></div></div>
+      <strong><span id="xp">0</span> XP</strong>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <nav class="nav-tabs" aria-label="Huvudmeny">
+      <button class="active" data-view="home">Hem</button>
+      <button data-view="map">Världskarta</button>
+      <button data-view="profile">Profil</button>
+      <button data-view="badges">Märken</button>
+      <button data-view="words">Begreppsbank</button>
+    </nav>
+
+    <section id="home" class="view active">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">Språkäventyret börjar här</span>
+          <h1>Träna svenska.<br><span>Bli en språkmästare.</span></h1>
+          <p>Utforska världar, samla XP och få hjälp med ord, uppläsning och exempel.</p>
+          <div class="hero-actions"><button class="primary" data-view="map">Spela nu</button><button class="secondary" data-view="profile">Välj profil</button></div>
+        </div>
+        <div class="hero-orb"><span id="heroAvatar">🦊</span><small>Nivå <span id="heroLevel">1</span></small></div>
+      </div>
+      <div class="dashboard-grid">
+        <article class="panel"><span class="panel-icon">⚡</span><div><small>Din erfarenhet</small><h3><span id="homeXp">0</span> XP</h3></div></article>
+        <article class="panel"><span class="panel-icon">🏆</span><div><small>Upplåsta märken</small><h3><span id="badgeCount">0</span> av 6</h3></div></article>
+        <article class="panel"><span class="panel-icon">📚</span><div><small>Samlade begrepp</small><h3><span id="wordCount">0</span> ord</h3></div></article>
+      </div>
+    </section>
+
+    <section id="map" class="view">
+      <div class="section-heading"><div><span class="eyebrow">Välj ditt nästa uppdrag</span><h2>Världskarta</h2></div><span class="pill">1 värld öppen</span></div>
+      <div class="world-map">
+        <article class="world-card open"><div class="world-art forest">🌿<span>📖</span></div><div class="world-body"><span class="world-number">Värld 1</span><h3>Ordakademin</h3><p>Synonymer, motsatser, begrepp och ord i sammanhang.</p><div class="stars" id="worldStars">☆ ☆ ☆</div><button class="primary full" id="openAcademy">Gå in i världen</button></div></article>
+        <div class="path-line"></div>
+        <article class="world-card locked"><div class="lock">🔒</div><div class="world-art valley">📗</div><div class="world-body"><span class="world-number">Värld 2</span><h3>Läsardalen</h3><p>Läsförståelse, fakta och sammanfattning.</p><small>Klara Ordakademins boss för att låsa upp.</small></div></article>
+        <article class="world-card locked"><div class="lock">🔒</div><div class="world-art mystery">🔎</div><div class="world-body"><span class="world-number">Värld 3</span><h3>Mellan raderna</h3><p>Ledtrådar, inferenser och tolkning.</p><small>Kommer i en senare version.</small></div></article>
+      </div>
+    </section>
+
+    <section id="academy" class="view">
+      <div class="game-top"><button class="back" data-view="map">← Karta</button><div class="game-progress"><div id="questionProgress"></div></div><strong id="questionNumber">1/10</strong></div>
+      <article class="game-card">
+        <div class="game-tools"><span id="taskType" class="pill">Synonymjakt</span><button id="speakQuestion" class="tool-button">🔊 Läs upp</button><button id="toggleSupport" class="tool-button">🌍 Ordhjälp</button></div>
+        <h2 id="questionText">Frågan laddas...</h2>
+        <div id="supportBox" class="support-box hidden"></div>
+        <div id="answers" class="answers"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <button id="nextQuestion" class="primary next hidden">Nästa fråga</button>
+      </article>
+    </section>
+
+    <section id="result" class="view">
+      <article class="result-card"><div id="resultMedal" class="medal">🥉</div><span class="eyebrow">Uppdrag slutfört</span><h2>Ordakademin avklarad!</h2><p id="resultText"></p><div class="result-stats"><div><strong id="scoreValue">0/10</strong><small>Rätt</small></div><div><strong id="earnedXp">0</strong><small>XP vunnet</small></div></div><div class="hero-actions centered"><button class="primary" id="playAgain">Spela igen</button><button class="secondary" data-view="map">Till kartan</button></div></article>
+    </section>
+
+    <section id="profile" class="view">
+      <div class="section-heading"><div><span class="eyebrow">Gör spelet till ditt</span><h2>Elevprofil</h2></div></div>
+      <div class="profile-layout"><article class="profile-preview"><div id="profileAvatar" class="large-avatar">🦊</div><h3 id="profileName">Elev</h3><p>Nivå <span id="profileLevel">1</span></p><div class="xp-wrap large"><div id="profileXpBar" class="xp-bar"></div></div></article><article class="settings-card"><label for="nameInput">Namn</label><input id="nameInput" maxlength="20" placeholder="Skriv ditt namn"><label>Välj avatar</label><div id="avatarPicker" class="avatar-picker"></div><label class="switch-row"><input id="autoSpeak" type="checkbox"><span>Läs upp frågor automatiskt</span></label><label class="switch-row"><input id="easySupport" type="checkbox"><span>Visa extra SVA-stöd direkt</span></label><button id="saveProfile" class="primary full">Spara profil</button><p id="saveMessage" class="save-message"></p></article></div>
+    </section>
+
+    <section id="badges" class="view"><div class="section-heading"><div><span class="eyebrow">Dina framsteg</span><h2>Märken</h2></div></div><div id="badgeGrid" class="badge-grid"></div></section>
+    <section id="words" class="view"><div class="section-heading"><div><span class="eyebrow">SVA-stöd och nya ord</span><h2>Begreppsbank</h2></div></div><p class="intro">Ord du möter i spelet samlas här. Tryck på ett ord för förklaring, exempel och uppläsning.</p><div id="wordGrid" class="word-grid"></div></section>
+  </main>
+  <footer>SvenskaMästarna 4.0 • Allt sparas lokalt på enheten</footer>
+  <script src="app.js"></script>
+</body>
+</html>
