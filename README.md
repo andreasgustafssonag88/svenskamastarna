@@ -1,10 +1,5 @@
-# SvenskaMästarna 4.0
+# SvenskaMästarna 4.1
 
-GitHub Pages-färdig grundversion med modern design, elevprofil, avatarer, XP, nivåer, märken, världskarta, Ordakademin, SVA-stöd, begreppsbank och svensk uppläsning.
+Tre nivåspår: Upptäckaren, Äventyraren och Mästaren. Innehåller valbart bildstöd, SVA-stöd, uppläsning, begreppsbank, profiler, avatarer, XP och märken.
 
-## Publicera
-1. Packa upp ZIP-filen.
-2. Ladda upp `index.html`, `style.css`, `app.js` och `README.md` direkt i roten av GitHub-repot.
-3. Aktivera Settings > Pages > Deploy from a branch > main > /(root).
-
-Allt sparas lokalt i webbläsaren med LocalStorage.
+Ladda upp index.html, style.css, app.js och README.md direkt i roten av GitHub-repot.

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#16265c">
-  <title>SvenskaMästarna 4.0</title>
+  <title>SvenskaMästarna 4.1</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -47,7 +47,7 @@
     </section>
 
     <section id="map" class="view">
-      <div class="section-heading"><div><span class="eyebrow">Välj ditt nästa uppdrag</span><h2>Världskarta</h2></div><span class="pill">1 värld öppen</span></div>
+      <div class="section-heading"><div><span class="eyebrow">Välj ditt nästa uppdrag</span><h2>Världskarta</h2></div><span id="activeTrackPill" class="pill">Upptäckaren</span></div>
       <div class="world-map">
         <article class="world-card open"><div class="world-art forest">🌿<span>📖</span></div><div class="world-body"><span class="world-number">Värld 1</span><h3>Ordakademin</h3><p>Synonymer, motsatser, begrepp och ord i sammanhang.</p><div class="stars" id="worldStars">☆ ☆ ☆</div><button class="primary full" id="openAcademy">Gå in i världen</button></div></article>
         <div class="path-line"></div>
@@ -60,7 +60,7 @@
       <div class="game-top"><button class="back" data-view="map">← Karta</button><div class="game-progress"><div id="questionProgress"></div></div><strong id="questionNumber">1/10</strong></div>
       <article class="game-card">
         <div class="game-tools"><span id="taskType" class="pill">Synonymjakt</span><button id="speakQuestion" class="tool-button">🔊 Läs upp</button><button id="toggleSupport" class="tool-button">🌍 Ordhjälp</button></div>
-        <h2 id="questionText">Frågan laddas...</h2>
+        <div id="questionImage" class="question-image hidden" aria-label="Bildstöd"></div><h2 id="questionText">Frågan laddas...</h2>
         <div id="supportBox" class="support-box hidden"></div>
         <div id="answers" class="answers"></div>
         <div id="feedback" class="feedback hidden"></div>
@@ -74,13 +74,20 @@
 
     <section id="profile" class="view">
       <div class="section-heading"><div><span class="eyebrow">Gör spelet till ditt</span><h2>Elevprofil</h2></div></div>
-      <div class="profile-layout"><article class="profile-preview"><div id="profileAvatar" class="large-avatar">🦊</div><h3 id="profileName">Elev</h3><p>Nivå <span id="profileLevel">1</span></p><div class="xp-wrap large"><div id="profileXpBar" class="xp-bar"></div></div></article><article class="settings-card"><label for="nameInput">Namn</label><input id="nameInput" maxlength="20" placeholder="Skriv ditt namn"><label>Välj avatar</label><div id="avatarPicker" class="avatar-picker"></div><label class="switch-row"><input id="autoSpeak" type="checkbox"><span>Läs upp frågor automatiskt</span></label><label class="switch-row"><input id="easySupport" type="checkbox"><span>Visa extra SVA-stöd direkt</span></label><button id="saveProfile" class="primary full">Spara profil</button><p id="saveMessage" class="save-message"></p></article></div>
+      <div class="profile-layout"><article class="profile-preview"><div id="profileAvatar" class="large-avatar">🦊</div><h3 id="profileName">Elev</h3><p>Nivå <span id="profileLevel">1</span></p><div class="xp-wrap large"><div id="profileXpBar" class="xp-bar"></div></div></article><article class="settings-card"><label for="nameInput">Namn</label><input id="nameInput" maxlength="20" placeholder="Skriv ditt namn"><label>Välj avatar</label><div id="avatarPicker" class="avatar-picker"></div><label>Välj nivåspår</label>
+<div id="trackPicker" class="track-picker">
+  <button type="button" data-track="discoverer"><strong>Upptäckaren</strong><small>Grundläggande språk och cirka år 2-nivå</small></button>
+  <button type="button" data-track="adventurer"><strong>Äventyraren</strong><small>Mellannivå och cirka år 4–5</small></button>
+  <button type="button" data-track="master"><strong>Mästaren</strong><small>Utmanande språk på år 6-nivå</small></button>
+</div>
+<label class="switch-row"><input id="imageSupport" type="checkbox"><span>Visa bildstöd i uppgifterna</span></label>
+<label class="switch-row"><input id="autoSpeak" type="checkbox"><span>Läs upp frågor automatiskt</span></label><label class="switch-row"><input id="easySupport" type="checkbox"><span>Visa extra SVA-stöd direkt</span></label><button id="saveProfile" class="primary full">Spara profil</button><p id="saveMessage" class="save-message"></p></article></div>
     </section>
 
     <section id="badges" class="view"><div class="section-heading"><div><span class="eyebrow">Dina framsteg</span><h2>Märken</h2></div></div><div id="badgeGrid" class="badge-grid"></div></section>
     <section id="words" class="view"><div class="section-heading"><div><span class="eyebrow">SVA-stöd och nya ord</span><h2>Begreppsbank</h2></div></div><p class="intro">Ord du möter i spelet samlas här. Tryck på ett ord för förklaring, exempel och uppläsning.</p><div id="wordGrid" class="word-grid"></div></section>
   </main>
-  <footer>SvenskaMästarna 4.0 • Allt sparas lokalt på enheten</footer>
+  <footer>SvenskaMästarna 4.1 • Allt sparas lokalt på enheten</footer>
   <script src="app.js"></script>
 </body>
 </html>
