@@ -1,0 +1,7 @@
+<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SvenskaMästarna v2</title><link rel="stylesheet" href="css/style.css"></head><body>
+<header><h1>SvenskaMästarna v2</h1><div>Lvl <span id="lvl">1</span> | XP <span id="xp">0</span></div></header>
+<div class="container">
+<div class="card"><h2>Elevprofil</h2><input id="name" placeholder="Namn"><select id="avatar"><option>🦊</option><option>🦉</option><option>🐼</option><option>🐬</option></select><button onclick="saveProfile()">Spara profil</button><div id="profile"></div></div>
+<div class="card"><h2>Ordakademin</h2><button onclick="startGame()">Starta</button><div id="question">Välj Starta</div><button id="speakBtn" onclick="speakCurrent()">🔊 Läs upp</button><div id="answers"></div></div>
+<div class="card"><h2>SVA-ordhjälp</h2><button onclick="showWord(0)">Demokrati</button><button onclick="showWord(1)">Argument</button><div id="wordhelp"></div></div>
+</div><script src="js/app.js"></script></body></html>
