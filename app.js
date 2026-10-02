@@ -66,11 +66,30 @@ const spellingAreas={
 state.spelling=state.spelling||{};state.spellingBest=state.spellingBest||{};
 let spArea='sj',spQs=[],spI=0,spScore=0,spXp=0,spAnswered=false,spPersonal=false;
 function spEntry(q){return state.spelling[q.word]||(state.spelling[q.word]={wrong:0,correct:0,streak:0,mastered:false,syllables:q.syllables,help:q.help})}
-function makeQuestions(key){return spellingAreas[key].words.map((w,i)=>{let [word,syllables,help,img,wrong]=w;let typing=i%2===1;let options=[word,...wrong].sort(()=>Math.random()-.5);return{word,syllables,help,img,typing,options}})}
+function shuffleList(items){
+  const list=[...items];
+  for(let i=list.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [list[i],list[j]]=[list[j],list[i]];
+  }
+  return list;
+}
+function makeQuestions(key){
+  const startPosition=Math.floor(Math.random()*3);
+  return spellingAreas[key].words.map((w,i)=>{
+    let [word,syllables,help,img,wrong]=w;
+    let typing=i%2===1;
+    const distractors=shuffleList(wrong);
+    const correctPosition=(startPosition+i)%3;
+    const options=[...distractors];
+    options.splice(correctPosition,0,word);
+    return{word,syllables,help,img,typing,options};
+  });
+}
 function renderAreas(){let g=$('spellingAreaGrid');if(!g)return;g.innerHTML='';Object.entries(spellingAreas).forEach(([k,a])=>{let b=document.createElement('button');b.className='area-card';b.innerHTML=`<span class="area-icon">${a.icon}</span><h3>${a.name}</h3><p>${a.desc}</p>`;b.onclick=()=>startArea(k);g.appendChild(b)})}
 function startArea(k){spArea=k;spPersonal=false;spQs=makeQuestions(k);startSpelling()}
 function startSpelling(){spI=0;spScore=0;spXp=0;showView('spellinggame');renderSpQ()}
-function renderSpQ(){spAnswered=false;let q=spQs[spI];$('spellingNumber').textContent=`${spI+1}/${spQs.length}`;$('spellingProgress').style.width=((spI+1)/spQs.length*100)+'%';$('spellingType').textContent=q.typing?'⌨️ Skriv själv':'✓ Välj rätt';$('spellingQuestion').textContent=q.typing?'Skriv ordet som passar till bilden och förklaringen.':'Vilket ord är rätt stavat?';$('spellingImage').innerHTML=`<span class="picture">${q.img}</span><span class="picture-label">${q.help}</span>`;$('syllableBox').innerHTML=`<strong>Stavelser:</strong> <span class="syllables">${q.syllables}</span>`;$('syllableBox').classList.add('hidden');$('spellingFeedback').className='feedback hidden';$('nextSpelling').classList.add('hidden');$('spellingAnswers').innerHTML='';$('typingForm').classList.toggle('hidden',!q.typing);if(q.typing){$('typingInput').value='';setTimeout(()=>$('typingInput').focus(),100)}else q.options.forEach(t=>{let b=document.createElement('button');b.className='answer';b.textContent=t;b.onclick=()=>markSpelling(t===q.word,b);$('spellingAnswers').appendChild(b)});if(state.autoSpeak)setTimeout(()=>speak(q.help+' '+(q.typing?'Skriv ordet.':q.options.join('. '))),250)}
+function renderSpQ(){spAnswered=false;let q=spQs[spI];$('spellingNumber').textContent=`${spI+1}/${spQs.length}`;$('spellingProgress').style.width=((spI+1)/spQs.length*100)+'%';$('spellingType').textContent=q.typing?'⌨️ Skriv själv':'✓ Välj rätt';$('spellingQuestion').textContent=q.typing?'Skriv ordet som passar till bilden och förklaringen.':'Vilket ord är rätt stavat?';$('spellingImage').innerHTML=`<span class="picture">${q.img}</span><span class="picture-label">${q.help}</span>`;$('syllableBox').innerHTML=`<strong>Stavelser:</strong> <span class="syllables">${q.syllables}</span>`;$('syllableBox').classList.add('hidden');$('spellingFeedback').className='feedback hidden';$('nextSpelling').classList.add('hidden');$('spellingAnswers').innerHTML='';$('typingForm').classList.toggle('hidden',!q.typing);if(q.typing){$('typingInput').disabled=false;$('typingInput').value='';setTimeout(()=>$('typingInput').focus(),100)}else q.options.forEach(t=>{let b=document.createElement('button');b.className='answer';b.textContent=t;b.onclick=()=>markSpelling(t===q.word,b);$('spellingAnswers').appendChild(b)});if(state.autoSpeak)setTimeout(()=>speak(q.help+' '+(q.typing?'Skriv ordet.':q.options.join('. '))),250)}
 function normalize(s){return s.trim().toLocaleLowerCase('sv-SE').replace(/\s+/g,' ')}
 function markSpelling(ok,button){if(spAnswered)return;spAnswered=true;let q=spQs[spI],e=spEntry(q);if(ok){spScore++;spXp+=q.typing?20:15;e.correct++;e.streak++;if(e.streak>=3)e.mastered=true;$('spellingFeedback').textContent=`Rätt! ${q.typing?'Du skrev ordet själv och fick 20 XP.':'Du fick 15 XP.'}`;$('spellingFeedback').className='feedback good';if(button)button.classList.add('correct')}else{e.wrong++;e.streak=0;e.mastered=false;$('spellingFeedback').textContent=`Inte riktigt. Rätt stavning är: ${q.word}. Ordet har sparats i stavningsboken.`;$('spellingFeedback').className='feedback bad';if(button)button.classList.add('wrong')}save();document.querySelectorAll('#spellingAnswers .answer').forEach(b=>{b.disabled=true;if(b.textContent===q.word)b.classList.add('correct')});$('typingInput').disabled=q.typing;$('nextSpelling').classList.remove('hidden')}
 $('typingForm').onsubmit=e=>{e.preventDefault();let q=spQs[spI];markSpelling(normalize($('typingInput').value)===normalize(q.word))};

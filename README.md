@@ -1,11 +1,11 @@
-# SvenskaMästarna 5.1
+# SvenskaMästarna 5.2
 
-Nyheter:
-- Stavningsriket med sj-ljud, tj-ljud, j-ljud, dubbelteckning och särskrivning.
-- Varannan uppgift är flervalsfråga och varannan kräver att eleven skriver ordet själv med tangentbordet.
-- Tangentbordssvar ger 20 XP.
-- Felstavade ord sparas i personlig Stavningsbok.
-- Personlig träning använder skrivuppgifter.
-- Ord bemästras efter tre rätt i följd.
+## Rättat
+- Rätt svar placeras nu balanserat till vänster, mitten och höger.
+- Startpositionen slumpas vid varje nytt spelpass.
+- Distraktorerna blandas med Fisher-Yates-metoden.
+- Det går fortfarande att skriva vartannat ord själv med tangentbordet.
+- Tangentbordsfältet återaktiveras korrekt inför nästa skrivuppgift.
+- Stavningsbok, XP, profiler, avatarer och Ordakademin är bevarade.
 
-Ladda upp de fem filerna i GitHub-repots rot och gör Ctrl+F5.
+Ersätt de fem filerna i GitHub-repots rot och gör Ctrl+F5.
