@@ -1,1 +1,23 @@
-[{"ord": "Demokrati"}, {"ord": "Argument"}]
+{
+  "version": "5.0",
+  "ord": [
+    {
+      "ord": "Demokrati"
+    },
+    {
+      "ord": "Argument"
+    },
+    {
+      "ord": "sjuksköterska",
+      "stavelser": "sjuk-skö-ters-ka"
+    },
+    {
+      "ord": "journalist",
+      "stavelser": "jour-na-list"
+    },
+    {
+      "ord": "stjärna",
+      "stavelser": "stjär-na"
+    }
+  ]
+}
