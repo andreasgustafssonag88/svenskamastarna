@@ -1,5 +1,15 @@
-# SvenskaMästarna 4.1
+SvenskaMästarna 5.0
 
-Tre nivåspår: Upptäckaren, Äventyraren och Mästaren. Innehåller valbart bildstöd, SVA-stöd, uppläsning, begreppsbank, profiler, avatarer, XP och märken.
+Nya världar:
+- Stavningsriket
+- SkrivSmart-staden
 
-Ladda upp index.html, style.css, app.js och README.md direkt i roten av GitHub-repot.
+Innehåll:
+- Sj-ljud
+- Tj-ljud
+- J-ljud
+- Dubbelteckning
+- Särskrivning
+- Sammansatta ord
+- Interpunktion
+- Stavningsbok
