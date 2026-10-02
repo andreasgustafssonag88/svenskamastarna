@@ -1,17 +1,14 @@
-# SvenskaMästarna 5.3
+# SvenskaMästarna 5.5
 
-## Nytt XP-system
-- XP nollställs automatiskt en gång när version 5.3 öppnas.
-- Namn, avatar, inställningar, ord, stavningsbok och tidigare resultat bevaras.
-- Upptäckaren: 10 XP per korrekt svar och 20 XP grundbonus.
-- Äventyraren: 15 XP per korrekt svar och 35 XP grundbonus.
-- Mästaren: 22 XP per korrekt svar och 55 XP grundbonus.
-- Noggrannhetsbonus vid minst 60 %, 80 % och 100 %.
-- Stavning ger mer XP för egna tangentbordssvar.
-- Svårare områden som dubbelteckning och särskrivning ger högre multiplikator.
-- Nivåkurvan blir gradvis brantare.
+## Slumpning i alla spelbara världar
+- En gemensam svarsmotor används nu i hela spelet.
+- Ordakademin och samtliga nivåspår använder samma säkra blandning.
+- Stavningsrikets alla områden använder samma blandning.
+- Rätt svar identifieras genom innehållet efter blandningen, inte den ursprungliga positionen.
+- Varje fråga blandas på nytt när ett spelpass startar.
+- Systemet är förberett så att nya världar kan använda randomizeWorldQuestions().
 
 ## Bevarat
-Stavningsriket, slumpade svarsalternativ, tangentbordsskrivning, Stavningsboken, profiler, avatarer, Ordakademin och SVA-stöd.
+XP-system, engångsnollställning av XP, tangentbordsskrivning, Stavningsboken, profiler, avatarer, SVA-stöd och uppläsning.
 
 Ersätt de fem filerna i GitHub-repots rot och gör Ctrl+F5.

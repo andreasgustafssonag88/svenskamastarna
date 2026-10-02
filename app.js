@@ -57,7 +57,29 @@ function renderHud(){const l=level(),progress=levelProgress();$('miniAvatar').te
 function renderProfile(){$('profileAvatar').textContent=selectedAvatar;$('profileName').textContent=state.name;$('profileLevel').textContent=level();$('profileXpBar').style.width=levelProgress()+'%';$('nameInput').value=state.name;$('autoSpeak').checked=state.autoSpeak;$('easySupport').checked=state.easySupport;$('imageSupport').checked=state.imageSupport;$('avatarPicker').innerHTML='';avatars.forEach(a=>{const b=document.createElement('button');b.className='avatar-option'+(a===selectedAvatar?' selected':'');b.textContent=a;b.onclick=()=>{selectedAvatar=a;renderProfile()};$('avatarPicker').appendChild(b)});document.querySelectorAll('#trackPicker button').forEach(b=>b.classList.toggle('selected',b.dataset.track===selectedTrack))}
 document.querySelectorAll('#trackPicker button').forEach(b=>b.onclick=()=>{selectedTrack=b.dataset.track;renderProfile()});
 $('saveProfile').onclick=()=>{state.name=$('nameInput').value.trim()||'Elev';state.avatar=selectedAvatar;state.track=selectedTrack;state.imageSupport=$('imageSupport').checked;state.autoSpeak=$('autoSpeak').checked;state.easySupport=$('easySupport').checked;save();renderProfile();$('saveMessage').textContent='Profil och nivåspår är sparade!';setTimeout(()=>$('saveMessage').textContent='',1800)};
-$('openAcademy').onclick=startGame;$('playAgain').onclick=startGame;function startGame(){questions=tracks[state.track].questions;index=0;score=0;earned=0;answered=false;showView('academy');renderQuestion()}
+// Gemensam svarsmotor för alla nuvarande och framtida världar.
+function randomIndex(max){
+  if(window.crypto&&window.crypto.getRandomValues){
+    const n=new Uint32Array(1);window.crypto.getRandomValues(n);return n[0]%max;
+  }
+  return Math.floor(Math.random()*max);
+}
+function shuffleChoices(items){
+  const list=[...items];
+  for(let i=list.length-1;i>0;i--){const j=randomIndex(i+1);[list[i],list[j]]=[list[j],list[i]]}
+  return list;
+}
+function randomizeQuestionChoices(question){
+  const correctText=question.a[question.c];
+  const choices=shuffleChoices(question.a);
+  return {...question,a:choices,c:choices.indexOf(correctText)};
+}
+function randomizeWorldQuestions(source){
+  return source.map(q=>randomizeQuestionChoices(q));
+}
+
+function prepareAcademyQuestions(source){return randomizeWorldQuestions(source)}
+$('openAcademy').onclick=startGame;$('playAgain').onclick=startGame;function startGame(){questions=prepareAcademyQuestions(tracks[state.track].questions);index=0;score=0;earned=0;answered=false;showView('academy');renderQuestion()}
 function renderQuestion(){answered=false;const q=questions[index];$('questionNumber').textContent=`${index+1}/${questions.length}`;$('questionProgress').style.width=((index+1)/questions.length*100)+'%';$('taskType').textContent=`${tracks[state.track].name} • ${q.type}`;$('questionText').textContent=q.q;$('questionImage').innerHTML=`<span class="picture">${q.img}</span><span class="picture-label">${q.label}</span>`;$('questionImage').classList.toggle('hidden',!state.imageSupport);$('supportBox').innerHTML=`<strong>${q.word}</strong><br>${q.help}`;$('supportBox').classList.toggle('hidden',!state.easySupport);$('feedback').className='feedback hidden';$('nextQuestion').classList.add('hidden');$('answers').innerHTML='';q.a.forEach((text,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=text;b.onclick=()=>answer(i,b);$('answers').appendChild(b)});if(state.autoSpeak)setTimeout(()=>speak(q.q),250)}
 function answer(choice,button){if(answered)return;answered=true;const q=questions[index];document.querySelectorAll('.answer').forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct')});if(choice===q.c){const gain=xpRules[state.track].correct;score++;earned+=gain;button.classList.add('correct');$('feedback').textContent=`Rätt! Du fick ${gain} XP på ${xpRules[state.track].label}-nivå.`;$('feedback').className='feedback good'}else{button.classList.add('wrong');$('feedback').textContent=`Inte riktigt. Rätt svar är: ${q.a[q.c]}.`;$('feedback').className='feedback bad'}if(!state.words.includes(q.word))state.words.push(q.word);$('nextQuestion').classList.remove('hidden')}
 $('nextQuestion').onclick=()=>{index++;index<questions.length?renderQuestion():finishGame()};$('speakQuestion').onclick=()=>{const q=questions[index];speak(q.q+' '+q.a.join('. '))};$('toggleSupport').onclick=()=>$('supportBox').classList.toggle('hidden');
@@ -79,23 +101,11 @@ const spellingAreas={
 state.spelling=state.spelling||{};state.spellingBest=state.spellingBest||{};
 let spArea='sj',spQs=[],spI=0,spScore=0,spXp=0,spAnswered=false,spPersonal=false;
 function spEntry(q){return state.spelling[q.word]||(state.spelling[q.word]={wrong:0,correct:0,streak:0,mastered:false,syllables:q.syllables,help:q.help})}
-function shuffleList(items){
-  const list=[...items];
-  for(let i=list.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [list[i],list[j]]=[list[j],list[i]];
-  }
-  return list;
-}
 function makeQuestions(key){
-  const startPosition=Math.floor(Math.random()*3);
   return spellingAreas[key].words.map((w,i)=>{
     let [word,syllables,help,img,wrong]=w;
-    let typing=i%2===1;
-    const distractors=shuffleList(wrong);
-    const correctPosition=(startPosition+i)%3;
-    const options=[...distractors];
-    options.splice(correctPosition,0,word);
+    const typing=i%2===1;
+    const options=shuffleChoices([word,...wrong]);
     return{word,syllables,help,img,typing,options};
   });
 }
@@ -113,3 +123,14 @@ function trainWords(){let pool=Object.values(spellingAreas).flatMap(a=>a.words).
 const oldShow=showView;showView=function(id){oldShow(id);if(id==='spellinghub')renderAreas();if(id==='spellingbook')renderBook()};
 $('openSpelling').onclick=()=>showView('spellinghub');$('speakSpelling').onclick=()=>{let q=spQs[spI];speak(q.help+' '+(q.typing?'Skriv ordet.':q.options.join('. ')))};$('syllableHelp').onclick=()=>$('syllableBox').classList.toggle('hidden');$('trainMyWords').onclick=trainWords;$('replaySpelling').onclick=()=>spPersonal?trainWords():startArea(spArea);
 renderAreas();renderBook();
+
+
+// Diagnostik: window.testAnswerDistribution() visar fördelningen i alla spelbara världar.
+window.testAnswerDistribution=function(rounds=300){
+  const result={academy:[0,0,0],spelling:[0,0,0]};
+  for(let r=0;r<rounds;r++){
+    const aq=randomizeQuestionChoices(tracks.discoverer.questions[r%tracks.discoverer.questions.length]);result.academy[aq.c]++;
+    const w=spellingAreas.sj.words[r%spellingAreas.sj.words.length],word=w[0],opts=shuffleChoices([word,...w[4]]);result.spelling[opts.indexOf(word)]++;
+  }
+  console.table(result);return result;
+};
