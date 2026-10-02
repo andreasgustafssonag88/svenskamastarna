@@ -55,128 +55,29 @@ function renderWords(){$('wordGrid').innerHTML='';if(!state.words.length){$('wor
 renderHud();renderProfile();renderBadges();renderWords();
 
 
-// SvenskaMästarna 5.0: Stavningsriket, SkrivSmart-staden och personlig stavningsbok
-const spellingAreas = {
-  sj:{name:'Sj-ljudet',icon:'🌊',desc:'sj, skj, stj, sk, ch och sch',questions:[
-    {q:'Vilket ord är rätt stavat?',a:['stjärna','sjärna','skärna'],c:0,word:'stjärna',syllables:'stjär-na',help:'En lysande himlakropp.',img:'⭐'},
-    {q:'Vilket ord är rätt stavat?',a:['skjorta','sjorta','stjorta'],c:0,word:'skjorta',syllables:'skjor-ta',help:'Ett klädesplagg för överkroppen.',img:'👕'},
-    {q:'Vilket ord är rätt stavat?',a:['sjuksköterska','sjuk sköterska','skuksköterska'],c:0,word:'sjuksköterska',syllables:'sjuk-skö-ters-ka',help:'En person som arbetar med vård.',img:'🏥'},
-    {q:'Vilket ord är rätt stavat?',a:['journalist','jornalist','schournalist'],c:0,word:'journalist',syllables:'jour-na-list',help:'En person som arbetar med nyheter.',img:'📰'},
-    {q:'Vilket ord är rätt stavat?',a:['choklad','sjoklad','shoklad'],c:0,word:'choklad',syllables:'cho-klad',help:'Något som görs av kakao.',img:'🍫'},
-    {q:'Vilket ord är rätt stavat?',a:['schema','sjema','skema'],c:0,word:'schema',syllables:'sche-ma',help:'En plan över tider och aktiviteter.',img:'📅'}]},
-  tj:{name:'Tj-ljudet',icon:'🔔',desc:'tj, k och kj',questions:[
-    {q:'Vilket ord är rätt stavat?',a:['tjugo','kjugo','chugo'],c:0,word:'tjugo',syllables:'tju-go',help:'Talet 20.',img:'2️⃣0️⃣'},
-    {q:'Vilket ord är rätt stavat?',a:['kyrka','tjyrka','kyrcka'],c:0,word:'kyrka',syllables:'kyr-ka',help:'En byggnad för gudstjänster.',img:'⛪'},
-    {q:'Vilket ord är rätt stavat?',a:['källa','tjälla','kjälla'],c:0,word:'källa',syllables:'käl-la',help:'Där information eller vatten kommer ifrån.',img:'💧'},
-    {q:'Vilket ord är rätt stavat?',a:['kök','tjök','kjök'],c:0,word:'kök',syllables:'kök',help:'Ett rum där man lagar mat.',img:'🍳'},
-    {q:'Vilket ord är rätt stavat?',a:['tjänst','känst','chänst'],c:0,word:'tjänst',syllables:'tjänst',help:'Ett arbete eller något som erbjuds.',img:'🧑‍💼'},
-    {q:'Vilket ord är rätt stavat?',a:['kedja','tjedja','kjedja'],c:0,word:'kedja',syllables:'ked-ja',help:'Länkar som sitter ihop.',img:'⛓️'}]},
-  j:{name:'J-ljudet',icon:'🎵',desc:'j, gj, hj, dj och lj',questions:[
-    {q:'Vilket ord är rätt stavat?',a:['hjärna','järna','gjärna'],c:0,word:'hjärna',syllables:'hjär-na',help:'Organet vi tänker med.',img:'🧠'},
-    {q:'Vilket ord är rätt stavat?',a:['hjärta','järta','gjärta'],c:0,word:'hjärta',syllables:'hjär-ta',help:'Organet som pumpar blod.',img:'❤️'},
-    {q:'Vilket ord är rätt stavat?',a:['djur','jur','gjur'],c:0,word:'djur',syllables:'djur',help:'En levande varelse som inte är en växt.',img:'🐾'},
-    {q:'Vilket ord är rätt stavat?',a:['ljud','jud','djud'],c:0,word:'ljud',syllables:'ljud',help:'Något som vi kan höra.',img:'🔊'},
-    {q:'Vilket ord är rätt stavat?',a:['gjorde','jorde','djorde'],c:0,word:'gjorde',syllables:'gjor-de',help:'Dåtid av göra.',img:'🛠️'},
-    {q:'Vilket ord är rätt stavat?',a:['hjul','jul','gjul'],c:0,word:'hjul',syllables:'hjul',help:'En rund del som kan rulla.',img:'🛞'}]},
-  double:{name:'Dubbelteckning',icon:'✌️',desc:'Kort vokal följs ofta av två konsonanter',questions:[
-    {q:'Vilket ord är rätt stavat?',a:['katt','kat','kaat'],c:0,word:'katt',syllables:'katt',help:'Ett vanligt husdjur.',img:'🐈'},
-    {q:'Vilket ord är rätt stavat?',a:['glass','glas','glaas'],c:0,word:'glass',syllables:'glass',help:'En kall efterrätt.',img:'🍦'},
-    {q:'Vilket ord är rätt stavat?',a:['hoppa','hopa','hopppa'],c:0,word:'hoppa',syllables:'hop-pa',help:'Att lämna marken med båda fötterna.',img:'🦘'},
-    {q:'Vilket ord är rätt stavat?',a:['sommar','somar','sommmar'],c:0,word:'sommar',syllables:'som-mar',help:'Årstiden efter våren.',img:'☀️'},
-    {q:'Vilket ord är rätt stavat?',a:['snabb','snab','snaabb'],c:0,word:'snabb',syllables:'snabb',help:'Någon eller något som rör sig fort.',img:'⚡'},
-    {q:'Vilket ord är rätt stavat?',a:['vissla','visla','visssla'],c:0,word:'vissla',syllables:'viss-la',help:'Att skapa en ton med munnen.',img:'🎶'}]},
-  vowel:{name:'Ä- och å-ljud',icon:'ÅÄ',desc:'Välj rätt vokal i vanliga ord',questions:[
-    {q:'Vilket ord är rätt stavat?',a:['hälsa','helsa','hällsa'],c:0,word:'hälsa',syllables:'häl-sa',help:'Kan betyda hur kroppen mår eller att säga hej.',img:'👋'},
-    {q:'Vilket ord är rätt stavat?',a:['berätta','beretta','bäretta'],c:0,word:'berätta',syllables:'be-rät-ta',help:'Att tala om vad som har hänt.',img:'💬'},
-    {q:'Vilket ord är rätt stavat?',a:['många','monga','månnga'],c:0,word:'många',syllables:'må-nga',help:'Ett stort antal.',img:'👥'},
-    {q:'Vilket ord är rätt stavat?',a:['också','ocksåå','okså'],c:0,word:'också',syllables:'ock-så',help:'Betyder även.',img:'➕'},
-    {q:'Vilket ord är rätt stavat?',a:['väldigt','veldigt','vällldigt'],c:0,word:'väldigt',syllables:'väl-digt',help:'I hög grad eller mycket.',img:'📈'},
-    {q:'Vilket ord är rätt stavat?',a:['förstå','försto','förrstå'],c:0,word:'förstå',syllables:'för-stå',help:'Att begripa något.',img:'💡'}]},
-  compounds:{name:'Särskrivning',icon:'🧩',desc:'Sammansatta ord och särskrivning',questions:[
-    {q:'Vilket alternativ är rätt?',a:['sjuksköterska','sjuk sköterska','sjuks köterska'],c:0,word:'sjuksköterska',syllables:'sjuk-skö-ters-ka',help:'Sammansatta ord skrivs oftast ihop.',img:'🏥'},
-    {q:'Vilket alternativ är rätt?',a:['jättebra','jätte bra','jät tebra'],c:0,word:'jättebra',syllables:'jät-te-bra',help:'Förstärkningsordet jätte skrivs ihop med ordet efter.',img:'🌟'},
-    {q:'Vilket alternativ är rätt?',a:['fotbollsplan','fotbolls plan','fot bollsplan'],c:0,word:'fotbollsplan',syllables:'fot-bolls-plan',help:'En plan för fotboll är en fotbollsplan.',img:'⚽'},
-    {q:'Vilket alternativ är rätt?',a:['glasskiosk','glass kiosk','glas skiosk'],c:0,word:'glasskiosk',syllables:'glass-ki-osk',help:'En kiosk som säljer glass är en glasskiosk.',img:'🍦🏪'},
-    {q:'Vilket alternativ är rätt?',a:['klassrumsdörr','klassrums dörr','klass rumsdörr'],c:0,word:'klassrumsdörr',syllables:'klass-rums-dörr',help:'En dörr till ett klassrum skrivs som ett ord.',img:'🚪'},
-    {q:'Vilket alternativ är rätt?',a:['sommarlov','sommar lov','som marl ov'],c:0,word:'sommarlov',syllables:'som-mar-lov',help:'Ett lov på sommaren är ett sommarlov.',img:'🏖️'}]},
-  punctuation:{name:'SkrivSmart',icon:'📝',desc:'Stor bokstav och skiljetecken',questions:[
-    {q:'Vilken mening är rätt?',a:['Jag bor i Örebro.','jag bor i örebro.','Jag bor i örebro'],c:0,word:'Örebro',syllables:'Ö-re-bro',help:'Meningar och namn börjar med stor bokstav.',img:'🏙️'},
-    {q:'Vilken mening är rätt?',a:['Var bor du?','Var bor du.','var bor du?'],c:0,word:'frågetecken',syllables:'frå-ge-teck-en',help:'En direkt fråga avslutas med frågetecken.',img:'❓'},
-    {q:'Vilken mening är rätt?',a:['Stanna!','stanna!','Stanna?'],c:0,word:'utropstecken',syllables:'ut-rops-teck-en',help:'Utrop eller starka uppmaningar kan avslutas med utropstecken.',img:'❗'},
-    {q:'Vilken mening är rätt?',a:['På måndag börjar skolan.','på måndag börjar skolan.','På måndag börjar skolan'],c:0,word:'punkt',syllables:'punkt',help:'En påståendemening avslutas ofta med punkt.',img:'🔴'},
-    {q:'Vilken mening är rätt?',a:['Sara och Ali läser.','sara och ali läser.','Sara och ali läser'],c:0,word:'namn',syllables:'namn',help:'Personnamn börjar med stor bokstav.',img:'👧👦'},
-    {q:'Vilken mening är rätt?',a:['Vilken fin dag!','vilken fin dag!','Vilken fin dag?'],c:0,word:'mening',syllables:'me-ning',help:'Meningar börjar med stor bokstav.',img:'🌞'}]}
+// Version 5.1: skriv orden själv med tangentbordet
+const spellingAreas={
+ sj:{name:'Sj-ljudet',icon:'🌊',desc:'sj, skj, stj, sk, ch och sch',words:[['stjärna','stjär-na','En lysande himlakropp.','⭐',['sjärna','skärna']],['skjorta','skjor-ta','Ett klädesplagg.','👕',['sjorta','stjorta']],['sjuksköterska','sjuk-skö-ters-ka','En person som arbetar med vård.','🏥',['sjuk sköterska','skuksköterska']],['journalist','jour-na-list','En person som arbetar med nyheter.','📰',['jornalist','journaist']],['choklad','cho-klad','Något som görs av kakao.','🍫',['sjoklad','shoklad']],['schema','sche-ma','En plan över tider och aktiviteter.','📅',['sjema','skema']]]},
+ tj:{name:'Tj-ljudet',icon:'🔔',desc:'tj, k och kj',words:[['tjugo','tju-go','Talet 20.','2️⃣0️⃣',['kjugo','chugo']],['kyrka','kyr-ka','En byggnad för gudstjänster.','⛪',['tjyrka','kyrcka']],['källa','käl-la','Där information eller vatten kommer ifrån.','💧',['tjälla','kjälla']],['kök','kök','Ett rum där man lagar mat.','🍳',['tjök','kjök']],['tjänst','tjänst','Ett arbete eller något som erbjuds.','💼',['känst','chänst']],['kedja','ked-ja','Länkar som sitter ihop.','⛓️',['tjedja','kjedja']]]},
+ j:{name:'J-ljudet',icon:'🎵',desc:'j, gj, hj, dj och lj',words:[['hjärna','hjär-na','Organet vi tänker med.','🧠',['järna','gjärna']],['hjärta','hjär-ta','Organet som pumpar blod.','❤️',['järta','gjärta']],['djur','djur','En levande varelse.','🐾',['jur','gjur']],['ljud','ljud','Något som vi kan höra.','🔊',['jud','djud']],['gjorde','gjor-de','Dåtid av göra.','🛠️',['jorde','djorde']],['hjul','hjul','En rund del som kan rulla.','🛞',['jul','gjul']]]},
+ double:{name:'Dubbelteckning',icon:'✌️',desc:'Kort vokal och dubbel konsonant',words:[['katt','katt','Ett vanligt husdjur.','🐈',['kat','kaat']],['glass','glass','En kall efterrätt.','🍦',['glas','glaas']],['hoppa','hop-pa','Att lämna marken med båda fötterna.','🦘',['hopa','hopppa']],['sommar','som-mar','Årstiden efter våren.','☀️',['somar','sommmar']],['snabb','snabb','Något som rör sig fort.','⚡',['snab','snaabb']],['vissla','viss-la','Att skapa en ton med munnen.','🎶',['visla','visssla']]]},
+ compounds:{name:'Särskrivning',icon:'🧩',desc:'Sammansatta ord skrivs ihop',words:[['sjuksköterska','sjuk-skö-ters-ka','En person som arbetar med vård.','🏥',['sjuk sköterska','sjuks köterska']],['jättebra','jät-te-bra','Något som är mycket bra.','🌟',['jätte bra','jät tebra']],['fotbollsplan','fot-bolls-plan','En plan där man spelar fotboll.','⚽',['fotbolls plan','fot bollsplan']],['glasskiosk','glass-ki-osk','En kiosk som säljer glass.','🍦',['glass kiosk','glas skiosk']],['klassrumsdörr','klass-rums-dörr','Dörren till ett klassrum.','🚪',['klassrums dörr','klass rumsdörr']],['sommarlov','som-mar-lov','Skolledighet på sommaren.','🏖️',['sommar lov','som marl ov']]]}
 };
-
-state.spelling = state.spelling || {};
-state.spellingBest = state.spellingBest || {};
-state.spellingPlayed = state.spellingPlayed || 0;
-let spellingAreaKey='sj', spellingQuestions=[], spellingIndex=0, spellingScore=0, spellingEarned=0, spellingAnswered=false, spellingMode='area';
-
-function spellingEntry(word, q={}){
-  if(!state.spelling[word]) state.spelling[word]={wrong:0,correct:0,streak:0,mastered:false,syllables:q.syllables||word,help:q.help||'Ett ord från stavningsträningen.'};
-  return state.spelling[word];
-}
-function recordSpelling(q, correct){
-  const e=spellingEntry(q.word,q);
-  if(correct){e.correct++;e.streak++;if(e.streak>=3)e.mastered=true;}else{e.wrong++;e.streak=0;e.mastered=false;}
-  save();
-}
-function allSpellingQuestions(){return Object.values(spellingAreas).flatMap(a=>a.questions)}
-function shuffleAnswers(q){
-  const items=q.a.map((text,i)=>({text,correct:i===q.c}));
-  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}
-  return {...q,a:items.map(x=>x.text),c:items.findIndex(x=>x.correct)};
-}
-function renderSpellingAreas(){
-  const grid=$('spellingAreaGrid'); if(!grid)return; grid.innerHTML='';
-  Object.entries(spellingAreas).forEach(([key,a])=>{const b=document.createElement('button');b.className='area-card';b.innerHTML=`<span class="area-icon">${a.icon}</span><h3>${a.name}</h3><p>${a.desc}</p>`;b.onclick=()=>startSpellingArea(key);grid.appendChild(b)});
-}
-function startSpellingArea(key){spellingMode='area';spellingAreaKey=key;spellingQuestions=spellingAreas[key].questions.map(shuffleAnswers);startSpellingSession()}
-function startSpellingSession(){spellingIndex=0;spellingScore=0;spellingEarned=0;spellingAnswered=false;showView('spellinggame');renderSpellingQuestion()}
-function renderSpellingQuestion(){
-  spellingAnswered=false;const q=spellingQuestions[spellingIndex];
-  $('spellingNumber').textContent=`${spellingIndex+1}/${spellingQuestions.length}`;$('spellingProgress').style.width=((spellingIndex+1)/spellingQuestions.length*100)+'%';
-  $('spellingType').textContent=spellingMode==='personal'?'Min stavningsbok':spellingAreas[spellingAreaKey].name;$('spellingQuestion').textContent=q.q;
-  $('spellingPromptImage').innerHTML=`<span class="picture">${q.img||'✍️'}</span><span class="picture-label">${q.help}</span>`;
-  $('syllableBox').innerHTML=`<strong>Stavelser</strong><br><span class="syllables">${q.syllables}</span>`;$('syllableBox').classList.add('hidden');
-  $('spellingFeedback').className='feedback hidden';$('nextSpelling').classList.add('hidden');$('spellingAnswers').innerHTML='';
-  q.a.forEach((text,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=text;b.onclick=()=>answerSpelling(i,b);$('spellingAnswers').appendChild(b)});
-  if(state.autoSpeak)setTimeout(()=>speak(q.q+' '+q.a.join('. ')),250);
-}
-function answerSpelling(choice,button){
-  if(spellingAnswered)return;spellingAnswered=true;const q=spellingQuestions[spellingIndex],ok=choice===q.c;
-  document.querySelectorAll('#spellingAnswers .answer').forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct')});
-  if(ok){spellingScore++;spellingEarned+=15;button.classList.add('correct');$('spellingFeedback').textContent='Rätt! Du fick 15 XP.';$('spellingFeedback').className='feedback good'}
-  else{button.classList.add('wrong');$('spellingFeedback').textContent=`Inte riktigt. Rätt svar är: ${q.a[q.c]}. Ordet sparades i din stavningsbok.`;$('spellingFeedback').className='feedback bad'}
-  recordSpelling(q,ok);$('nextSpelling').classList.remove('hidden');renderHud();
-}
-function finishSpelling(){
-  const total=spellingQuestions.length,bonus=spellingScore===total?50:spellingScore>=Math.ceil(total*.7)?30:15;spellingEarned+=bonus;state.xp+=spellingEarned;state.spellingPlayed++;
-  if(spellingMode==='area')state.spellingBest[spellingAreaKey]=Math.max(state.spellingBest[spellingAreaKey]||0,spellingScore);save();
-  $('spellingMedal').textContent=spellingScore===total?'🥇':spellingScore>=Math.ceil(total*.7)?'🥈':'🥉';$('spellingScore').textContent=`${spellingScore}/${total}`;$('spellingXp').textContent=spellingEarned;
-  $('spellingResultTitle').textContent=spellingMode==='personal'?'Dina ord är tränade!':`${spellingAreas[spellingAreaKey].name} avklarat!`;
-  $('spellingResultText').textContent=`Du fick ${spellingScore} rätt. Felord sparas och rätt svar bygger en serie mot att bemästra ordet.`;showView('spellingresult');
-}
-function trainPersonalWords(){
-  const pool=allSpellingQuestions(),needs=Object.entries(state.spelling).filter(([,e])=>!e.mastered).sort((a,b)=>b[1].wrong-a[1].wrong).map(([w])=>pool.find(q=>q.word===w)).filter(Boolean);
-  if(!needs.length){alert('Du har inga ord som behöver tränas ännu. Spela Stavningsriket först!');return}
-  spellingMode='personal';spellingQuestions=needs.slice(0,10).map(shuffleAnswers);startSpellingSession();
-}
-function renderSpellingBook(){
-  const entries=Object.entries(state.spelling),needs=entries.filter(([,e])=>!e.mastered),mastered=entries.filter(([,e])=>e.mastered);
-  $('needsCount').textContent=needs.length;$('masteredCount').textContent=mastered.length;$('attemptCount').textContent=state.spellingPlayed;
-  $('bookEmpty').classList.toggle('hidden',entries.length>0);const grid=$('spellingBookGrid');grid.innerHTML='';
-  entries.sort((a,b)=>Number(a[1].mastered)-Number(b[1].mastered)||b[1].wrong-a[1].wrong).forEach(([word,e])=>{
-    const level=e.mastered?'green':e.wrong>=3?'red':'yellow',label=e.mastered?'Bemästrat':e.wrong>=3?'Tränas ofta':'Behöver tränas';
-    grid.insertAdjacentHTML('beforeend',`<article class="word-card"><span class="word-status status-${level}">${label}</span><h3>${word}</h3><p class="syllables">${e.syllables}</p><p>${e.help}</p><div class="word-stats"><span>✓ ${e.correct} rätt</span><span>✗ ${e.wrong} fel</span><span>Serie: ${e.streak}/3</span></div><button onclick="speak('${word}. ${e.help}')">🔊 Lyssna</button></article>`)
-  });
-}
-const originalShowView=showView;showView=function(id){originalShowView(id);if(id==='spellinghub')renderSpellingAreas();if(id==='spellingbook')renderSpellingBook()};
-const originalRenderHud=renderHud;renderHud=function(){originalRenderHud();const entries=Object.keys(state.spelling||{});if($('spellingCount'))$('spellingCount').textContent=entries.length;const scores=Object.values(state.spellingBest||{});const best=scores.length?Math.max(...scores):0;if($('spellingStars'))$('spellingStars').textContent=best>=6?'★ ★ ★':best>=5?'★ ★ ☆':best>=3?'★ ☆ ☆':'☆ ☆ ☆';if($('smartStars'))$('smartStars').textContent=(state.spellingBest.compounds||0)>=6?'★ ★ ★':(state.spellingBest.compounds||0)>=4?'★ ★ ☆':'☆ ☆ ☆';};
-$('openSpelling').onclick=()=>showView('spellinghub');$('openSmart').onclick=()=>startSpellingArea('compounds');
-$('nextSpelling').onclick=()=>{spellingIndex++;spellingIndex<spellingQuestions.length?renderSpellingQuestion():finishSpelling()};
-$('speakSpelling').onclick=()=>{const q=spellingQuestions[spellingIndex];speak(q.q+' '+q.a.join('. '))};
-$('syllableHelp').onclick=()=>$('syllableBox').classList.toggle('hidden');$('trainMyWords').onclick=trainPersonalWords;
-$('replaySpelling').onclick=()=>spellingMode==='personal'?trainPersonalWords():startSpellingArea(spellingAreaKey);
-renderSpellingAreas();renderSpellingBook();renderHud();
+state.spelling=state.spelling||{};state.spellingBest=state.spellingBest||{};
+let spArea='sj',spQs=[],spI=0,spScore=0,spXp=0,spAnswered=false,spPersonal=false;
+function spEntry(q){return state.spelling[q.word]||(state.spelling[q.word]={wrong:0,correct:0,streak:0,mastered:false,syllables:q.syllables,help:q.help})}
+function makeQuestions(key){return spellingAreas[key].words.map((w,i)=>{let [word,syllables,help,img,wrong]=w;let typing=i%2===1;let options=[word,...wrong].sort(()=>Math.random()-.5);return{word,syllables,help,img,typing,options}})}
+function renderAreas(){let g=$('spellingAreaGrid');if(!g)return;g.innerHTML='';Object.entries(spellingAreas).forEach(([k,a])=>{let b=document.createElement('button');b.className='area-card';b.innerHTML=`<span class="area-icon">${a.icon}</span><h3>${a.name}</h3><p>${a.desc}</p>`;b.onclick=()=>startArea(k);g.appendChild(b)})}
+function startArea(k){spArea=k;spPersonal=false;spQs=makeQuestions(k);startSpelling()}
+function startSpelling(){spI=0;spScore=0;spXp=0;showView('spellinggame');renderSpQ()}
+function renderSpQ(){spAnswered=false;let q=spQs[spI];$('spellingNumber').textContent=`${spI+1}/${spQs.length}`;$('spellingProgress').style.width=((spI+1)/spQs.length*100)+'%';$('spellingType').textContent=q.typing?'⌨️ Skriv själv':'✓ Välj rätt';$('spellingQuestion').textContent=q.typing?'Skriv ordet som passar till bilden och förklaringen.':'Vilket ord är rätt stavat?';$('spellingImage').innerHTML=`<span class="picture">${q.img}</span><span class="picture-label">${q.help}</span>`;$('syllableBox').innerHTML=`<strong>Stavelser:</strong> <span class="syllables">${q.syllables}</span>`;$('syllableBox').classList.add('hidden');$('spellingFeedback').className='feedback hidden';$('nextSpelling').classList.add('hidden');$('spellingAnswers').innerHTML='';$('typingForm').classList.toggle('hidden',!q.typing);if(q.typing){$('typingInput').value='';setTimeout(()=>$('typingInput').focus(),100)}else q.options.forEach(t=>{let b=document.createElement('button');b.className='answer';b.textContent=t;b.onclick=()=>markSpelling(t===q.word,b);$('spellingAnswers').appendChild(b)});if(state.autoSpeak)setTimeout(()=>speak(q.help+' '+(q.typing?'Skriv ordet.':q.options.join('. '))),250)}
+function normalize(s){return s.trim().toLocaleLowerCase('sv-SE').replace(/\s+/g,' ')}
+function markSpelling(ok,button){if(spAnswered)return;spAnswered=true;let q=spQs[spI],e=spEntry(q);if(ok){spScore++;spXp+=q.typing?20:15;e.correct++;e.streak++;if(e.streak>=3)e.mastered=true;$('spellingFeedback').textContent=`Rätt! ${q.typing?'Du skrev ordet själv och fick 20 XP.':'Du fick 15 XP.'}`;$('spellingFeedback').className='feedback good';if(button)button.classList.add('correct')}else{e.wrong++;e.streak=0;e.mastered=false;$('spellingFeedback').textContent=`Inte riktigt. Rätt stavning är: ${q.word}. Ordet har sparats i stavningsboken.`;$('spellingFeedback').className='feedback bad';if(button)button.classList.add('wrong')}save();document.querySelectorAll('#spellingAnswers .answer').forEach(b=>{b.disabled=true;if(b.textContent===q.word)b.classList.add('correct')});$('typingInput').disabled=q.typing;$('nextSpelling').classList.remove('hidden')}
+$('typingForm').onsubmit=e=>{e.preventDefault();let q=spQs[spI];markSpelling(normalize($('typingInput').value)===normalize(q.word))};
+$('nextSpelling').onclick=()=>{spI++;if(spI<spQs.length)renderSpQ();else finishSp()};
+function finishSp(){let bonus=spScore===spQs.length?50:spScore>=4?30:15;spXp+=bonus;state.xp+=spXp;if(!spPersonal)state.spellingBest[spArea]=Math.max(state.spellingBest[spArea]||0,spScore);save();$('spellingMedal').textContent=spScore===spQs.length?'🥇':spScore>=4?'🥈':'🥉';$('spellingResultTitle').textContent='Stavningsträningen är klar!';$('spellingResultText').textContent='Du har både valt rätt stavning och skrivit ord med tangentbordet.';$('spellingScore').textContent=`${spScore}/${spQs.length}`;$('spellingXp').textContent=spXp;showView('spellingresult')}
+function renderBook(){let es=Object.entries(state.spelling),g=$('spellingBookGrid');$('needsCount').textContent=es.filter(([,e])=>!e.mastered).length;$('masteredCount').textContent=es.filter(([,e])=>e.mastered).length;$('bookEmpty').classList.toggle('hidden',es.length>0);g.innerHTML='';es.sort((a,b)=>Number(a[1].mastered)-Number(b[1].mastered)||b[1].wrong-a[1].wrong).forEach(([w,e])=>g.insertAdjacentHTML('beforeend',`<article class="word-card"><span class="word-status ${e.mastered?'mastered':''}">${e.mastered?'Bemästrat':'Behöver tränas'}</span><h3>${w}</h3><p class="syllables">${e.syllables}</p><p>${e.help}</p><div class="word-stats"><span>✓ ${e.correct}</span><span>✗ ${e.wrong}</span><span>Serie ${e.streak}/3</span></div><button onclick="speak('${w}. ${e.help}')">🔊 Lyssna</button></article>`))}
+function trainWords(){let pool=Object.values(spellingAreas).flatMap(a=>a.words).map(w=>({word:w[0],syllables:w[1],help:w[2],img:w[3],typing:true,options:[w[0],...w[4]]}));spQs=Object.entries(state.spelling).filter(([,e])=>!e.mastered).map(([w])=>pool.find(q=>q.word===w)).filter(Boolean).slice(0,10);if(!spQs.length){alert('Spela först ett område så att svåra ord kan samlas in.');return}spPersonal=true;startSpelling()}
+const oldShow=showView;showView=function(id){oldShow(id);if(id==='spellinghub')renderAreas();if(id==='spellingbook')renderBook()};
+$('openSpelling').onclick=()=>showView('spellinghub');$('speakSpelling').onclick=()=>{let q=spQs[spI];speak(q.help+' '+(q.typing?'Skriv ordet.':q.options.join('. ')))};$('syllableHelp').onclick=()=>$('syllableBox').classList.toggle('hidden');$('trainMyWords').onclick=trainWords;$('replaySpelling').onclick=()=>spPersonal?trainWords():startArea(spArea);
+renderAreas();renderBook();

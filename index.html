@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#16265c">
-  <title>SvenskaMästarna 5.0</title>
+  <title>SvenskaMästarna 5.1</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,8 +26,7 @@
       <button data-view="map">Världskarta</button>
       <button data-view="profile">Profil</button>
       <button data-view="badges">Märken</button>
-      <button data-view="words">Begreppsbank</button>
-      <button data-view="spellingbook">Stavningsbok</button>
+      <button data-view="words">Begreppsbank</button><button data-view="spellingbook">Stavningsbok</button>
     </nav>
 
     <section id="home" class="view active">
@@ -44,7 +43,6 @@
         <article class="panel"><span class="panel-icon">⚡</span><div><small>Din erfarenhet</small><h3><span id="homeXp">0</span> XP</h3></div></article>
         <article class="panel"><span class="panel-icon">🏆</span><div><small>Upplåsta märken</small><h3><span id="badgeCount">0</span> av 6</h3></div></article>
         <article class="panel"><span class="panel-icon">📚</span><div><small>Samlade begrepp</small><h3><span id="wordCount">0</span> ord</h3></div></article>
-        <article class="panel"><span class="panel-icon">✍️</span><div><small>Ord i stavningsboken</small><h3><span id="spellingCount">0</span> ord</h3></div></article>
       </div>
     </section>
 
@@ -54,9 +52,7 @@
         <article class="world-card open"><div class="world-art forest">🌿<span>📖</span></div><div class="world-body"><span class="world-number">Värld 1</span><h3>Ordakademin</h3><p>Synonymer, motsatser, begrepp och ord i sammanhang.</p><div class="stars" id="worldStars">☆ ☆ ☆</div><button class="primary full" id="openAcademy">Gå in i världen</button></div></article>
         <div class="path-line"></div>
         <article class="world-card locked"><div class="lock">🔒</div><div class="world-art valley">📗</div><div class="world-body"><span class="world-number">Värld 2</span><h3>Läsardalen</h3><p>Läsförståelse, fakta och sammanfattning.</p><small>Klara Ordakademins boss för att låsa upp.</small></div></article>
-        <article class="world-card locked"><div class="lock">🔒</div><div class="world-art mystery">🔎</div><div class="world-body"><span class="world-number">Värld 3</span><h3>Mellan raderna</h3><p>Ledtrådar, inferenser och tolkning.</p><small>Kommer i en senare version.</small></div></article>
-        <article class="world-card open spelling-world"><div class="world-art spelling">✍️<span>🔤</span></div><div class="world-body"><span class="world-number">Värld 4</span><h3>Stavningsriket</h3><p>Sj-ljud, tj-ljud, j-ljud, dubbelteckning samt ä- och å-ljud.</p><div class="stars" id="spellingStars">☆ ☆ ☆</div><button class="primary full" id="openSpelling">Gå in i världen</button></div></article>
-        <article class="world-card open smart-world"><div class="world-art smart">📝<span>🔧</span></div><div class="world-body"><span class="world-number">Värld 5</span><h3>SkrivSmart-staden</h3><p>Särskrivning, sammansatta ord, stor bokstav och skiljetecken.</p><div class="stars" id="smartStars">☆ ☆ ☆</div><button class="primary full" id="openSmart">Gå in i världen</button></div></article>
+        <article class="world-card locked"><div class="lock">🔒</div><div class="world-art mystery">🔎</div><div class="world-body"><span class="world-number">Värld 3</span><h3>Mellan raderna</h3><p>Ledtrådar, inferenser och tolkning.</p><small>Kommer i en senare version.</small></div></article><article class="world-card open"><div class="world-art spelling">✍️<span>🔤</span></div><div class="world-body"><span class="world-number">Värld 4</span><h3>Stavningsriket</h3><p>Välj rätt stavning och skriv orden själv med tangentbordet.</p><div class="stars" id="spellingStars">☆ ☆ ☆</div><button class="primary full" id="openSpelling">Gå in i världen</button></div></article>
       </div>
     </section>
 
@@ -90,20 +86,13 @@
 
     <section id="badges" class="view"><div class="section-heading"><div><span class="eyebrow">Dina framsteg</span><h2>Märken</h2></div></div><div id="badgeGrid" class="badge-grid"></div></section>
     <section id="words" class="view"><div class="section-heading"><div><span class="eyebrow">SVA-stöd och nya ord</span><h2>Begreppsbank</h2></div></div><p class="intro">Ord du möter i spelet samlas här. Tryck på ett ord för förklaring, exempel och uppläsning.</p><div id="wordGrid" class="word-grid"></div></section>
-
-    <section id="spellinghub" class="view">
-      <div class="section-heading"><div><span class="eyebrow">SvenskaMästarna 5.0</span><h2>Stavningsriket</h2></div><button class="secondary" data-view="spellingbook">📖 Stavningsbok</button></div>
-      <p class="intro">Välj område. Felstavade ord sparas automatiskt så att du kan träna dem igen.</p>
-      <div id="spellingAreaGrid" class="area-grid"></div>
-    </section>
-    <section id="spellinggame" class="view">
-      <div class="game-top"><button class="back" data-view="spellinghub">← Områden</button><div class="game-progress"><div id="spellingProgress"></div></div><strong id="spellingNumber">1/6</strong></div>
-      <article class="game-card"><div class="game-tools"><span id="spellingType" class="pill">Stavning</span><button id="speakSpelling" class="tool-button">🔊 Läs upp</button><button id="syllableHelp" class="tool-button">✂️ Stavelser</button></div><div id="spellingPromptImage" class="question-image"></div><h2 id="spellingQuestion"></h2><div id="syllableBox" class="support-box hidden"></div><div id="spellingAnswers" class="answers"></div><div id="spellingFeedback" class="feedback hidden"></div><button id="nextSpelling" class="primary next hidden">Nästa fråga</button></article>
-    </section>
-    <section id="spellingresult" class="view"><article class="result-card"><div id="spellingMedal" class="medal">🥉</div><span class="eyebrow">Stavningsuppdrag slutfört</span><h2 id="spellingResultTitle">Bra tränat!</h2><p id="spellingResultText"></p><div class="result-stats"><div><strong id="spellingScore">0/6</strong><small>Rätt</small></div><div><strong id="spellingXp">0</strong><small>XP vunnet</small></div></div><div class="hero-actions centered"><button class="primary" id="replaySpelling">Spela igen</button><button class="secondary" data-view="spellingbook">Öppna stavningsboken</button></div></article></section>
-    <section id="spellingbook" class="view"><div class="section-heading"><div><span class="eyebrow">Personlig repetition</span><h2>Min stavningsbok</h2></div><button class="primary" id="trainMyWords">🎯 Träna mina ord</button></div><div class="spelling-summary"><div><strong id="needsCount">0</strong><small>Behöver tränas</small></div><div><strong id="masteredCount">0</strong><small>Bemästrade</small></div><div><strong id="attemptCount">0</strong><small>Träningstillfällen</small></div></div><p id="bookEmpty" class="intro">Ord som du stavar fel sparas här automatiskt.</p><div id="spellingBookGrid" class="word-grid"></div></section>
-  </main>
-  <footer>SvenskaMästarna 5.0 • Allt sparas lokalt på enheten</footer>
+  
+<section id="spellinghub" class="view"><div class="section-heading"><div><span class="eyebrow">Värld 4</span><h2>Stavningsriket</h2></div><button class="secondary" data-view="spellingbook">📖 Stavningsbok</button></div><p class="intro">Varje område blandar flervalsfrågor med uppgifter där du skriver ordet själv.</p><div id="spellingAreaGrid" class="area-grid"></div></section>
+<section id="spellinggame" class="view"><div class="game-top"><button class="back" data-view="spellinghub">← Områden</button><div class="game-progress"><div id="spellingProgress"></div></div><strong id="spellingNumber"></strong></div><article class="game-card"><div class="game-tools"><span id="spellingType" class="pill"></span><button id="speakSpelling" class="tool-button">🔊 Läs upp</button><button id="syllableHelp" class="tool-button">✂️ Stavelser</button></div><div id="spellingImage" class="question-image"></div><h2 id="spellingQuestion"></h2><div id="syllableBox" class="support-box hidden"></div><div id="spellingAnswers" class="answers"></div><form id="typingForm" class="typing-form hidden"><label for="typingInput">Skriv ordet:</label><div class="typing-row"><input id="typingInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Skriv här"><button class="primary" type="submit">Kontrollera</button></div></form><div id="spellingFeedback" class="feedback hidden"></div><button id="nextSpelling" class="primary next hidden">Nästa fråga</button></article></section>
+<section id="spellingresult" class="view"><article class="result-card"><div id="spellingMedal" class="medal">🥉</div><span class="eyebrow">Uppdrag slutfört</span><h2 id="spellingResultTitle"></h2><p id="spellingResultText"></p><div class="result-stats"><div><strong id="spellingScore"></strong><small>Rätt</small></div><div><strong id="spellingXp"></strong><small>XP</small></div></div><div class="hero-actions centered"><button class="primary" id="replaySpelling">Spela igen</button><button class="secondary" data-view="spellingbook">Stavningsboken</button></div></article></section>
+<section id="spellingbook" class="view"><div class="section-heading"><div><span class="eyebrow">Personlig repetition</span><h2>Min stavningsbok</h2></div><button class="primary" id="trainMyWords">🎯 Träna mina ord</button></div><div class="spelling-summary"><div><strong id="needsCount">0</strong><small>Behöver tränas</small></div><div><strong id="masteredCount">0</strong><small>Bemästrade</small></div></div><p id="bookEmpty" class="intro">Felstavade ord sparas automatiskt här.</p><div id="spellingBookGrid" class="word-grid"></div></section>
+</main>
+  <footer>SvenskaMästarna 5.1 • Allt sparas lokalt på enheten</footer>
   <script src="app.js"></script>
 </body>
 </html>

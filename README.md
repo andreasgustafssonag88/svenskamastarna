@@ -1,15 +1,11 @@
-# SvenskaMästarna 5.0
+# SvenskaMästarna 5.1
 
-Byggd på SvenskaMästarna 4.1.
+Nyheter:
+- Stavningsriket med sj-ljud, tj-ljud, j-ljud, dubbelteckning och särskrivning.
+- Varannan uppgift är flervalsfråga och varannan kräver att eleven skriver ordet själv med tangentbordet.
+- Tangentbordssvar ger 20 XP.
+- Felstavade ord sparas i personlig Stavningsbok.
+- Personlig träning använder skrivuppgifter.
+- Ord bemästras efter tre rätt i följd.
 
-## Nytt
-- Personlig Stavningsbok som sparar felord
-- Personliga träningspass
-- Bemästring efter tre korrekta svar i följd
-- Stavningsriket: sj-ljud, tj-ljud, j-ljud, dubbelteckning samt ä- och å-ljud
-- SkrivSmart-staden: särskrivning, sammansatta ord, stor bokstav och skiljetecken
-- Uppläsning, stavelsehjälp, XP, medaljer och LocalStorage
-- Befintliga profiler, avatarer, Ordakademin, begreppsbank och SVA-stöd är bevarade
-
-## GitHub Pages
-Ladda upp index.html, style.css, app.js, sva.json och README.md direkt i repots rot. Gör därefter en hård omladdning med Ctrl+F5.
+Ladda upp de fem filerna i GitHub-repots rot och gör Ctrl+F5.
